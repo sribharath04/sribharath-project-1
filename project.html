@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movify</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: black;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+            background: silver;
+            margin: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"], select {
+            padding: 10px;
+            margin: 10px 0;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2c3e50;
+        }
+        .movie {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .movie img {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
+        .suggestions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Movify 🎥</h1>
+</header>
+
+<main>
+    <div id="login-genre-section">
+        <h2>Login and Select Genre</h2>
+        <form onsubmit="return showSuggestions(event)">
+            <input type="text" id="username" placeholder="Enter your name" required>
+            <select id="genre" required>
+                <option value="">Select Genre</option>
+                <option value="action">Action</option>
+                <option value="comedy">Comedy</option>
+                <option value="drama">Drama</option>
+                <option value="horror">Horror</option>
+                <option value="romance">Romance</option>
+            </select>
+            <button type="submit">Get Suggestions</button>
+        </form>
+<section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <p>If you have any questions, feel free to reach out!</p>
+        <form action="#">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+        <div class="contact-details">
+            <p><strong>Email:</strong> sribharath965@gmail.com</p>
+            <p><strong>Phone:</strong> +919500990171</p>
+   
+        </div>
+    </section>
+    </div>
+
+    <div id="suggestions" style="display:none;">
+        <h2>Movie Suggestions</h2>
+        <div class="suggestions" id="suggestion-list"></div>
+        <button onclick="goBack()">Back</button>
+    </div>
+</main>
+
+<script>
+    function showSuggestions(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const genre = document.getElementById('genre').value;
+        const suggestionList = document.getElementById('suggestion-list');
+        suggestionList.innerHTML = ''; // Clear previous suggestions
+
+        let movies = {
+            action: [
+                { title: "Mad Max: Fury Road", image: "https://img.seriebox.com/films/24/24680/affich_24680_2.jpg" },
+                { title: "John Wick", image: "https://wallpapercave.com/wp/wp11345399.jpg" }
+            ],
+            comedy: [
+                { title: "Superbad", image: "https://image.tmdb.org/t/p/original/w5LPpLZvlNblrW90HAT6lJmQoGS.jpg" },
+                { title: "The Hangover", image: "https://image.tmdb.org/t/p/original/x8D6HXhmvdtPhM219J5Rc6ESagr.jpg" }
+            ],
+            drama: [
+                { title: "The Shawshank Redemption", image: "https://www.vintagemovieposters.co.uk/wp-content/uploads/2015/11/IMG_0797.jpg" },
+                { title: "Forrest Gump", image: "https://c8.alamy.com/comp/2NKT66A/forrest-gump-1994-directed-by-robert-zemeckis-credit-paramount-pictures-album-2NKT66A.jpg" }
+            ],
+            horror: [
+                { title: "Get Out", image: "https://image.tmdb.org/t/p/original/mjTgZtmxUaLC60TBw7Jc0kA2AVx.jpg" },
+                { title: "A Quiet Place", image: "https://image.tmdb.org/t/p/original/y9rmcpivS4rwfyZfxPqtlmAzCa.jpg" }
+            ],
+            romance: [
+                { title: "The Notebook", image: "https://image.tmdb.org/t/p/original/oMuUUaRdXk8RotKnickYCdMSfoK.jpg" },
+                { title: "Pride and Prejudice", image: "https://image.tmdb.org/t/p/original/vAxWpk857xbpaeoSvkRsfMbokPl.jpg" }
+            ]
+        };
+
+        const selectedMovies = movies[genre];
+        if (selectedMovies) {
+            selectedMovies.forEach(movie => {
+                const movieDiv = document.createElement('div');
+                movieDiv.classList.add('movie');
+                movieDiv.innerHTML = `
+                    <img src="${movie.image}" alt="${movie.title}">
+                    <h3>${movie.title}</h3>
+                `;
+                suggestionList.appendChild(movieDiv);
+            });
+        }
+
+        document.getElementById('login-genre-section').style.display = 'none';
+        document.getElementById('suggestions').style.display = 'block';
+    }
+
+    function goBack() {
+        document.getElementById('login-genre-section').style.display = 'block';
+        document.getElementById('suggestions').style.display = 'none';
+        document.getElementById('username').value = '';
+        document.getElementById('genre').selectedIndex = 0;
+        document.getElementById('suggestion-list').innerHTML = ''; // Clear suggestions
+    }
+</script>
+
+</body>
+</html>
